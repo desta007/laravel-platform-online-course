@@ -34,7 +34,7 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Admin',
             'occupation' => 'Entrepreneur',
             'avatar' => 'images/default-avatar.png',
-            'email' => 'admim@gmail.com',
+            'email' => 'admin@gmail.com',
             'password' => bcrypt('12345678')
         ]);
 
