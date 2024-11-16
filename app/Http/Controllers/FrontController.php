@@ -27,7 +27,7 @@ class FrontController extends Controller
     public function category(Category $category)
     {
         $courses = $category->courses()->get();
-        return view('front.category', compact('courses'));
+        return view('front.category', compact('courses', 'category'));
     }
 
     public function learning(Course $course, $courseVideoId)
@@ -46,11 +46,21 @@ class FrontController extends Controller
 
     public function pricing()
     {
+        $user = Auth::user();
+        if ($user->hasActiveSubscription()) {
+            return redirect()->route('front.index');
+        }
+
         return view('front.pricing');
     }
 
     public function checkout()
     {
+        $user = Auth::user();
+        if ($user->hasActiveSubscription()) {
+            return redirect()->route('front.index');
+        }
+
         return view('front.checkout');
     }
 

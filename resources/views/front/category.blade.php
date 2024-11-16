@@ -13,7 +13,7 @@
     <div style="background-image: url('{{ asset('assets/background/Hero-Banner.png') }}')" id="hero-section"
         class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
         <nav class="flex justify-between items-center py-6 px-[50px]">
-            <a href="index.html">
+            <a href="{{ route('front.index') }}">
                 <img src="{{ asset('assets/logo/logo.svg') }}" alt="logo">
             </a>
             <ul class="flex items-center gap-[30px] text-white">
@@ -70,58 +70,63 @@
                 <p class="font-medium text-sm text-[#FF6129]">Top Categories</p>
             </div>
             <div class="flex flex-col">
-                <h2 class="font-bold text-[40px] leading-[60px]">Digital Marketing</h2>
+                <h2 class="font-bold text-[40px] leading-[60px]">{{ $category->name }}</h2>
                 <p class="text-[#6D7786] text-lg -tracking-[2%]">Catching up the on demand skills and high paying career
                     this year</p>
             </div>
             <div class="grid grid-cols-3 gap-[30px] w-full">
-                <div class="course-card">
-                    <div
-                        class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
-                        <a href="details.html"
-                            class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
-                            <img src="{{ asset('assets/thumbnail/image.png') }}" class="w-full h-full object-cover"
-                                alt="thumbnail">
-                        </a>
-                        <div class="flex flex-col px-4 gap-[32px]">
-                            <div class="flex flex-col gap-[10px]">
-                                <a href="details.html"
-                                    class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern
-                                    JavaScript: Bikin Projek Website Seperti Twitter</a>
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center gap-[2px]">
-                                        <div>
-                                            <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                @forelse ($courses as $course)
+                    <div class="course-card">
+                        <div
+                            class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
+                            <a href="{{ route('front.details', $course->slug) }}"
+                                class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
+                                <img src="{{ Storage::url($course->thumbnail) }}" class="w-full h-full object-cover"
+                                    alt="thumbnail">
+                            </a>
+                            <div class="flex flex-col px-4 gap-[32px]">
+                                <div class="flex flex-col gap-[10px]">
+                                    <a href="{{ route('front.details', $course->slug) }}"
+                                        class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">{{ $course->name }}</a>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-[2px]">
+                                            <div>
+                                                <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                            </div>
+                                            <div>
+                                                <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                            </div>
+                                            <div>
+                                                <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                            </div>
+                                            <div>
+                                                <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                            </div>
+                                            <div>
+                                                <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                        </div>
+                                        <p class="text-right text-[#6D7786]">{{ $course->students->count() }} students
+                                        </p>
                                     </div>
-                                    <p class="text-right text-[#6D7786]">41 students</p>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="{{ asset('assets/photo/photo1.png') }}"
-                                        class="w-full h-full object-cover" alt="icon">
-                                </div>
-                                <div class="flex flex-col">
-                                    <p class="font-semibold">Angga Risky</p>
-                                    <p class="text-[#6D7786]">Full-Stack Developer</p>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
+                                        <img src="{{ Storage::url($course->teacher->user->avatar) }}"
+                                            class="w-full h-full object-cover" alt="icon">
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <p class="font-semibold">{{ $course->teacher->user->name }}</p>
+                                        <p class="text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <p>Belum tersedia kelas pada kategori ini</p>
+                @endforelse
+
 
             </div>
         </div>
